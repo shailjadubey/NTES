@@ -1,0 +1,1404 @@
+package NITES_APP;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Scanner;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+
+public class NITES_RAILWAY_APP {
+	private static final URL NULL = null;
+	   static AppiumDriver driver;
+	   static Scanner s=new Scanner(System.in);
+	   public static void main(String[] args) throws InterruptedException
+	   {
+	   	
+	   	   System.out.println("Launching app in device");	
+	   	     DesiredCapabilities dc=new DesiredCapabilities();
+	   	     dc.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Appium");
+	   	     dc.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+	   	     dc.setCapability(MobileCapabilityType.DEVICE_NAME,"Galaxy J8" );
+	   	     dc.setCapability(MobileCapabilityType.PLATFORM_VERSION, "10");
+	   	  dc.setCapability("appPackage","cris.icms.ntes");
+	   	 	dc.setCapability("appActivity","cris.icms.ntes.LaunchApp");
+	   	 	dc.setCapability("noReset", "true");
+	   	 URL server_url=NULL;
+	   	 try
+	   	 	{
+	   	 	server_url= new URL("http://127.0.0.1:4723/wd/hub");
+	   	 	System.out.println("Server connected");
+	   	 	}
+	   	 	catch(MalformedURLException e)
+	   	 	{
+	   	 	System.out.println("Server not found");	
+	   	 	System.out.println(e.getMessage());
+	   	 	}
+	   	 	Thread.sleep(8000);
+	   	   
+	   	   driver=new AndroidDriver(server_url,dc);
+	   	   dc.setCapability("newCommandTimeout", 10);
+	   	   System.out.println("Creating Driver for android with all Desired capability and server URL");
+	   		System.out.println("App open");
+	   		System.out.println("1st screen start");
+	   		//Test case 1-Verify NTES app should successfully launch
+	   		ntes_launch();
+	   		//Test case 2-Verify Notification icon should display on 1st screen
+	   		notification_icon();
+	   		//Test case 3- Verify notification icon should be clickable
+	   		notification_click();
+	   		//Test case 4-User should successfully click on Notification icon
+	   		notification_userclick();
+	   		//Test case 5-Verify user should navigates to next screen after click on Notification icon
+	   		notification_navigation();
+	   		//Test case 6-Verify Notification toggle button should display on screen
+	   		notification_switch();
+	   		//Test case 7-Verify user can switch notification option as On/Off
+	   		notification_on_off();
+	   		//Test case 8-Verify user should Turn ON notification
+	   		notification_on();
+	   		//Test case 9-Verify user should Turn OFF notification
+	   		NOTIFICATION_OFF();
+	   		//Test Case 10-Verify back button present on notification screen should clickable
+	   		notification_backbtn();
+	   		//Test case 11-Verify user should click on back button from notification screen
+	   		notification_back_click();
+	   		//Test case 12-Verify after click on back button , user should navigates to Home page
+	   		notification_back_navigation();
+	   		//Test case 13-Verify Spot Your train module should display on screen
+	   		spot_your_train();
+	   		//Test case 14-Verify Spot your train should be clickable
+	   		spot_your_train_clickable();
+	   		//Test Case 15-Verify User should click on Spot you train 
+	   		spot_your_train_click();
+	   		//Test case 16-Verify User navigates to next screen after click on spot your train
+	   		spot_your_train_click_navigation();
+	   	//Test case 17-Verify user select Train Instances
+	   		Train_Instances_select();
+	   		//Test case 18-Verify user select Journey Station Basis
+	   		Journey_Station_Basis_select();
+	   		//Test case 19-Verify user should enter train number in Train Number/Name option
+	   		input_train_num();
+	   		//Test case 20-Verify after enter correct Train number , auto search should work
+	   		train_auto_search();
+	   		//Test case 21-Verify Train name should display as JBP- IND EXP for train number 22192
+	   		Train_name();
+	   		//Test case 22-Verify Default date display on screen should be current date 
+	   		Date_current();
+	   		//Test case 23-Verify user should select Station dropdown button
+	   		Station_dropdown();
+	   		//Test case 24-Verify after click on station dropdown , Station name list should display 
+	   		Station_list();
+	   		//Test case 25-Verify User select Dewas as Station from list
+	   		Station_dewas();
+	   		//Test case 26-Verify after select station from dropdown , List should close 
+	   		list_close();
+	   		//Test case 27-Verify station display as selected station
+	   		selected_station();
+	   		//Test case 28-Verify Show status button should display on screen 
+	   		show_status_btn();
+	   		//Test case 29-Verify Show status button should be clickable
+	   		show_status_click_function();
+	   		//Test case 30-Verify User Should click on Show status 
+	   		show_status_click();
+	   		//Test case 31-Verify user should navigates to next screen after click on show status
+	   		page_navigation();
+	   		//Test case 32-Verify Train number display on next screen should be correct 
+	   		check_train_no();
+	   		//Test case 33-Verify train name display on screen should be correct
+	   		check_name();
+	   		//Test case 34-Verify 1St station name should display on screen
+	   		check_first_station();
+	   		//Test case 35-Verify last station name should display on screen
+	   		check_last_station();
+	   		//Test case 36-Verify platform number should not display on screen for running train
+	   		platform_no();
+	   		//Test case 37-Verify For searched train arrival details should display 
+	   		arrival();
+	   		//Test case 38-Verify for selected train departure details should display 
+	   		departure();
+	   		//Test case 39-Verify Arrival time should display 
+	   		arrival_time();
+	   		//Test case 40-Verify Arrival status details should display
+	   		arrival_update();
+	   		//Test case 41-Verify Departure time should display
+	   		departure_time();
+	   		//Test case 42-Verify Departure status should display 
+	   		departure_status();
+	   		//Test case 43-Verify Last update should display on screen
+	   		last_update();
+	   		//Test case 44-Verify user can read last update details
+	   		last_update_details();
+	   		//Test case 45-Verify Refresh icon should display to refresh the train status
+	   		refresh();
+	   	    //Test case 46-Verify Refresh button should be clickable
+	   		refresh_action();
+	   		//Test case 47-Verify user should click on refresh button
+	   		refresh_click();
+	   		//Test case 48-Verify to add train to favorites , button should display 
+	   		fav();
+	     	//Test case 49-Verify favorites  button should be clickable
+	   		fav_action();
+	    	//Test case 50-Verify user should click on favorites button
+	   		fav_click();
+	   		//Test case 51-Verify More option icon should display 
+	   		more_option();
+	   	   //Test case 52-Verify More option button should be clickable
+	   		more_option_action();
+	    	//Test case 53-Verify user should click on More option button
+	   		more_option_click();
+	   		//Test case 54-Verify More option should open dropdown 
+	   		more_dropdown();
+	   	    //Test case 55-Verify More option title should be select Map
+	   		more_title();
+	   		//Test case 56-Verify Google option should display on list
+	   		more_google();
+	   	    //Test case 57-Verify Bhuvan option should display on list
+	   		more_Bhuvan();
+	   	    //Test case 58-Verify By default google option should be selected
+	   		more_selected();
+	   	    //Test case 59-Verify Bhuvan option should be clickable in order to change map
+	   		bhuvan_check();
+	   		//Test case 60-Verify Google option should be clickable in order to change map
+	   		Google_check();
+	   		//Test case 61-Verify user should change Map type to Bhuvan
+	   		Bhuvan_click();
+	   		//Test case 62-Verify user should change Map type to Google
+	   		Google_click();
+	   		//Test case 63-Verify after click on any map type dropdown should close
+	   		more_close();
+	   		//Test case 64-Verify after dropdown close , user should naviagte back to spot your train screen
+	   		navigation_more();
+}
+	 
+	private static void navigation_more() {
+		// TODO Auto-generated method stub
+		try
+		{
+		Thread.sleep(3000);
+		boolean close=driver.findElement(By.id("cris.icms.ntes:id/arrhead")).isDisplayed();
+		boolean expected=true;
+		if(close==expected)
+		{
+			System.out.println("Test case 64 Pass-User naviagtes to spot your train");
+		}
+		else
+		{
+			System.out.println("Test case 64 Fail-User not naviagtes to spot your train");
+		}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 64 Fail-User not naviagtes to spot your train");
+		}
+	}
+
+	private static void more_close() {
+		// TODO Auto-generated method stub
+		try
+		{
+		Thread.sleep(3000);
+		boolean close=driver.findElement(By.id("cris.icms.ntes:id/arrhead")).isDisplayed();
+		boolean expected=true;
+		if(close==expected)
+		{
+			System.out.println("Test case 63 Pass-More close successfully");
+		}
+		else
+		{
+			System.out.println("Test case 63 Fail-More option still display");
+		}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 63 Fail-More option still display");
+		}
+	}
+
+	private static void Google_click() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);	
+			driver.findElement(By.className("android.widget.ImageView")).click();
+			Thread.sleep(4000);
+			driver.findElement(By.id("cris.icms.ntes:id/radio")).click();
+			System.out.println("Test case 61 Pass-User successfully click on Google ");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 62 Fail-Google button not found");
+		}
+	}
+
+	private static void Bhuvan_click() {
+		// TODO Auto-generated method stub
+		try
+		{
+			driver.findElement(By.id("cris.icms.ntes:id/radio")).click();
+			System.out.println("Test case 61 Pass-User successfully click on Bhuvan ");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 62 Fail-Bhuvan button not found");
+		}
+	}
+
+	private static void Google_check() {
+		// TODO Auto-generated method stub
+		try
+		{
+			boolean google_btn=driver.findElement(By.id("cris.icms.ntes:id/radio")).isEnabled();
+			boolean expected=true;
+			if(google_btn==expected)
+			{
+				System.out.println("Test case 60 Pass- Google button is clickable");
+			}
+			else
+			{
+				System.out.println("Test case 60 Fail-Google button not clickable");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 60 Fail-Google button not clickable");
+		}
+	}
+
+	private static void bhuvan_check() {
+		// TODO Auto-generated method stub
+		try
+		{
+			boolean bhuvan_btn=driver.findElement(By.id("cris.icms.ntes:id/radio")).isEnabled();
+			boolean expected=true;
+			if(bhuvan_btn==expected)
+			{
+				System.out.println("Test case 59 Pass- Bhuvan button is clickable");
+			}
+			else
+			{
+				System.out.println("Test case 59 Fail-Bhuvan button not clickable");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 59 Fail-Bhuvan button not clickable");
+		}
+	}
+
+	private static void more_selected() {
+		// TODO Auto-generated method stub
+		try
+		{
+			boolean google_btn=driver.findElement(By.id("cris.icms.ntes:id/radio")).isSelected();
+			boolean expected=false;
+			if(google_btn==expected)
+			{
+				System.out.println("Test case 58 Pass- Google button is auto selected");
+			}
+			else
+			{
+				System.out.println("Test case 58 Fail-Google is not selected");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 58 Fail-Google is not selected");
+		}
+	}
+
+	private static void more_Bhuvan() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			String bhuvan=driver.findElement(By.xpath("//android.widget.TextView[@text='Bhuvan']")).getText();
+			String expected="Bhuvan";
+			if(bhuvan.equals(expected))
+			{
+				System.out.println("Test case 57 Pass- Bhuvan is successfully display ");
+			}
+			else
+			{
+				System.out.println("Test case 57 Fail- Bhuvan is not getting display ");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 57 Fail- Bhuvan is not getting display ");
+		}
+	}
+
+	private static void more_google() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			String google=driver.findElement(By.xpath("//android.widget.TextView[@text='Google']")).getText();
+			String expected="Google";
+			if(google.equals(expected))
+			{
+				System.out.println("Test case 56 Pass- Google is successfully display ");
+			}
+			else
+			{
+				System.out.println("Test case 56 Fail- Google is not getting display ");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 56 Fail- Google is not getting display ");
+		}
+	}
+
+	private static void more_title() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			String title=driver.findElement(By.id("cris.icms.ntes:id/title")).getText();
+			String expected="Select Map";
+			if(title.equals(expected))
+			{
+				System.out.println("Test case 55 Pass- More option title display as Select Map");
+			}
+			else
+			{
+				System.out.println("Test case 55 Fail- More option title is not display as Select Map ");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 55 Fail- More option title is not display as Select Map ");
+		}
+	}
+
+	private static void more_dropdown() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			boolean option=driver.findElement(By.id("cris.icms.ntes:id/title")).isDisplayed();
+			boolean expected=true;
+			if(option==expected)
+			{
+				System.out.println("Test case 54 Pass- More option is successfully display ");
+			}
+			else
+			{
+				System.out.println("Test case 54 Fail- More option is not getting display ");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 54 Fail- More option is not getting display ");
+		}
+	}
+
+	private static void more_option_click() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			driver.findElement(By.className("android.widget.ImageView")).click();
+				System.out.println("Test case 53 Pass-More option successfully click by user ");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 53 Fail- More option button is not working");
+		}
+	}
+
+	private static void more_option_action() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			boolean more_action=driver.findElement(By.className("android.widget.ImageView")).isEnabled();
+			boolean expected=true;
+			if(more_action==expected)
+			{
+				System.out.println("Test case 52 Pass- More option button is clickable ");
+			}
+			else
+			{
+				System.out.println("Test case 52 Fail-  More option button is not clickable");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 52 Fail- More option button is not clickable");
+		}
+	}
+
+	private static void more_option() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			boolean more=driver.findElement(By.className("android.widget.ImageView")).isDisplayed();
+			boolean expected=true;
+			if(more==expected)
+			{
+				System.out.println("Test case 51 Pass-  More option button successfully display  ");
+			}
+			else
+			{
+				System.out.println("Test case 51 Fail-  More option button not found");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 51 Fail-  More option button not found");
+		}
+	}
+
+	private static void fav_click() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			driver.findElement(By.id("cris.icms.ntes:id/action_fav")).click();
+				System.out.println("Test case 50 Pass- favorites button successfully click by user ");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 50 Fail- favorites button is not working");
+		}
+	}
+
+	private static void fav_action() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			boolean fav_action=driver.findElement(By.id("cris.icms.ntes:id/action_fav")).isEnabled();
+			boolean expected=true;
+			if(fav_action==expected)
+			{
+				System.out.println("Test case 49 Pass- favorites button is clickable ");
+			}
+			else
+			{
+				System.out.println("Test case 49 Fail-  favorites button is not clickable");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 49 Fail- favorites button is not clickable");
+		}
+	}
+
+	private static void fav() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			boolean fav=driver.findElement(By.id("cris.icms.ntes:id/action_fav")).isDisplayed();
+			boolean expected=true;
+			if(fav==expected)
+			{
+				System.out.println("Test case 48 Pass- favorites button successfully display  ");
+			}
+			else
+			{
+				System.out.println("Test case 48 Fail- favorites button not found");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 48 Fail- favorites button not found");
+		}
+	}
+
+	private static void refresh_click() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			driver.findElement(By.id("cris.icms.ntes:id/action_refresh")).click();
+				System.out.println("Test case 47 Pass- Refresh button successfully click by user ");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 47 Fail- Refresh button is not working");
+		}
+	}
+
+	private static void refresh_action() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			boolean refresh_action=driver.findElement(By.id("cris.icms.ntes:id/action_refresh")).isEnabled();
+			boolean expected=true;
+			if(refresh_action==expected)
+			{
+				System.out.println("Test case 46 Pass- Refresh button is clickable ");
+			}
+			else
+			{
+				System.out.println("Test case 46 Fail-  Refresh button is not clickable");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 46 Fail- Refresh button is not clickable");
+		}
+	}
+
+	private static void refresh() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			boolean refresh=driver.findElement(By.id("cris.icms.ntes:id/action_refresh")).isDisplayed();
+			boolean expected=true;
+			if(refresh==expected)
+			{
+				System.out.println("Test case 45 Pass- Refresh button successfully display  ");
+			}
+			else
+			{
+				System.out.println("Test case 45 Fail- Refresh button not found");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 45 Fail- Refresh button not found");
+		}
+	}
+
+	private static void last_update_details() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			String last_update=driver.findElement(By.id("cris.icms.ntes:id/tupd")).getText();
+			System.out.println("Last update display as -"+last_update);
+			System.out.println("Test case 44 Pass- User can read last update details ");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 44 Fail- User can't read last update details ");
+		}
+	}
+
+	private static void last_update() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			boolean update=driver.findElement(By.id("cris.icms.ntes:id/tupd")).isDisplayed();
+			boolean expected=true;
+			if(update==expected)
+			{
+				System.out.println("Test case 43 Pass- Last update for train is display ");
+			}
+			else
+			{
+				System.out.println("Test case 43 Fail- Last update not getting display");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 43 Fail- Last update not getting display");
+		}
+	}
+
+	private static void departure_status() {
+		// TODO Auto-generated method stub
+		try
+		{Thread.sleep(3000);
+		boolean time=driver.findElement(By.id("cris.icms.ntes:id/tddel")).isDisplayed();
+		boolean expected=true;
+		if(time==expected)
+		{
+			System.out.println("Test case 42 Pass- Train Departure Status successfully display ");
+		}
+		else
+		{
+			System.out.println("Test case 42 Fail- Train Departure Status   not getting display ");
+		}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 42 Fail- Train Departure Status  not getting display ");
+		}
+	}
+
+	private static void departure_time() {
+		// TODO Auto-generated method stub
+		try
+		{Thread.sleep(3000);
+		boolean time=driver.findElement(By.id("cris.icms.ntes:id/tsdep")).isDisplayed();
+		boolean expected=true;
+		if(time==expected)
+		{
+			System.out.println("Test case 41 Pass- Train Departure time successfully display ");
+		}
+		else
+		{
+			System.out.println("Test case 41 Fail- Train Departure time not getting display ");
+		}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 41 Fail- Train Departure time not getting display ");
+		}
+	}
+
+	private static void arrival_update() {
+		// TODO Auto-generated method stub
+		try
+		{Thread.sleep(3000);
+		boolean time=driver.findElement(By.id("cris.icms.ntes:id/tadel")).isDisplayed();
+		boolean expected=true;
+		if(time==expected)
+		{
+			System.out.println("Test case 40 Pass- Train arrival status successfully display ");
+		}
+		else
+		{
+			System.out.println("Test case 40 Fail- Train arrival status not getting display ");
+		}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 40 Fail- Train arrival status not getting display ");
+		}
+	}
+
+	private static void arrival_time() {
+		// TODO Auto-generated method stub
+		try
+		{Thread.sleep(3000);
+		boolean time=driver.findElement(By.id("cris.icms.ntes:id/tsarr")).isDisplayed();
+		boolean expected=true;
+		if(time==expected)
+		{
+			System.out.println("Test case 39 Pass- Train arrival time successfully display ");
+		}
+		else
+		{
+			System.out.println("Test case 39 Fail- Train arrival time not getting display ");
+		}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 39 Fail- Train arrival time not getting display ");
+		}
+	}
+
+	private static void departure() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			boolean departure=driver.findElement(By.id("cris.icms.ntes:id/dephead")).isDisplayed();
+			boolean expected=true;
+			if(departure==expected)
+			{
+				System.out.println("Test case 38 Pass- departure details successfully display ");
+			}
+			else
+			{
+				System.out.println("Test case 38 Fail- departure details not getting display ");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 38 Fail- departure details not getting display ");
+		}
+	}
+
+	private static void arrival() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			boolean arrival=driver.findElement(By.id("cris.icms.ntes:id/arrhead")).isDisplayed();
+			boolean expected=true;
+			if(arrival==expected)
+			{
+				System.out.println("Test case 37 Pass- Arrival details successfully display ");
+			}
+			else
+			{
+				System.out.println("Test case 37 Fail- Arrival details not getting display ");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 37 Fail- Arrival details not getting display ");
+		}
+	}
+
+	private static void platform_no() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+				Boolean station_name=driver.findElement(By.id("cris.icms.ntes:id/tpf")).isDisplayed();
+				boolean expected=false;
+				if(expected==station_name)
+				{
+					System.out.println("Test case 36 Pass- Patform number not display on screen");
+				}
+				else
+				{
+					System.out.println("Test case 36 Fail- Patform number found");	
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 36 Pass- Patform number not display on screen");	
+			}
+	}
+	private static void check_last_station() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+				Boolean station_name=driver.findElement(By.id("cris.icms.ntes:id/tdstn")).isDisplayed();
+				boolean expected=true;
+				if(expected==station_name)
+				{
+					System.out.println("Test case 35 Pass- Last station name display on screen");
+				}
+				else
+				{
+					System.out.println("Test case 35 Fail- Last Station name not found");	
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 35 Fail- Last Station name not found");	
+			}
+	}
+	private static void check_first_station() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+				Boolean station_name=driver.findElement(By.id("cris.icms.ntes:id/tsrc")).isDisplayed();
+				boolean expected=true;
+				if(expected==station_name)
+				{
+					System.out.println("Test case 34 Pass- 1st station name display on screen");
+				}
+				else
+				{
+					System.out.println("Test case 34 Fail- Station name not found");	
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 34 Fail-  Station name not found");	
+			}
+	}
+	private static void check_name() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+				String train_name=driver.findElement(By.id("cris.icms.ntes:id/tna")).getText();
+				System.out.println("Train name-"+train_name);
+				Thread.sleep(3000);
+				String expected="JBP- IND EXP";
+				if(train_name.equals(expected))
+				{
+					System.out.println("Test case 33 Pass- Correct train name display on screen");
+				}
+				else
+				{
+					System.out.println("Test case 33 Fail- Incorrect train name ");	
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 33 Fail- Incorrect train name ");	
+			}
+	}
+	private static void check_train_no() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+				String train_no=driver.findElement(By.id("cris.icms.ntes:id/tnu")).getText();
+				System.out.println("Train nu-"+train_no);
+				Thread.sleep(3000);
+				String expected="22192";
+				if(train_no.endsWith(expected))
+				{
+					System.out.println("Test case 32 Pass- Correct train number display on screen");
+				}
+				else
+				{
+					System.out.println("Test case 32 Fail- Incorrect train number ");	
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 32 Fail- Incorrect train number ");	
+			}
+	}
+	private static void page_navigation() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			boolean page_title=driver.findElement(By.id("cris.icms.ntes:id/arrhead")).isDisplayed();
+			boolean expected=true;
+			if(expected==page_title)
+			{
+				System.out.println("Test case 31 Pass- User successfully Navigates to next screen");
+			}
+			else
+			{
+				System.out.println("Test case 31 Fail- User not Navigates to next screen");	
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 31 Fail- User not Navigates to next screen");	
+		}
+	}
+	private static void show_status_click() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+			     driver.findElement(By.id("cris.icms.ntes:id/tv_search")).click();
+					System.out.println("Test case 30 Pass-User successfully click on show status button");
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 30 Fail-Show status button not clicked");	
+			}	
+	}
+	private static void show_status_click_function() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+				boolean btn_click=driver.findElement(By.id("cris.icms.ntes:id/tv_search")).isEnabled();
+				boolean expected=true;
+				if(btn_click==expected)
+				{
+				System.out.println("Test case 29 Pass- Show status button is clickable");
+				}
+				else
+				{
+					System.out.println("Test case 29 Fail-Show status button is disbaled");
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 29 Fail-Show status button is disbaled");	
+			}	
+	}
+	private static void show_status_btn() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			boolean btn=driver.findElement(By.id("cris.icms.ntes:id/tv_search")).isDisplayed();
+			boolean expected=true;
+			if(btn==expected)
+			{
+			System.out.println("Test case 28 Pass- Show status button display on screen");
+			}
+			else
+			{
+				System.out.println("Test case 28 Fail-Show status button not found");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 28 Fail-Show status button not found");	
+		}	
+	}
+	private static void selected_station() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+				boolean list=driver.findElement(By.xpath("//android.widget.TextView[@text='Dewas - DWX']")).isDisplayed();
+				boolean expected=true;
+				if(list==expected)
+				{
+				System.out.println("Test case 27 Pass- Correct station name display");
+				}
+				else
+				{
+					System.out.println("Test case 27 Fail- Incorrect station name display");
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 27 Fail- Incorrect station name display");	
+			}	
+	}
+	private static void list_close() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+				boolean list=driver.findElement(By.id("cris.icms.ntes:id/opt1")).isDisplayed();
+				boolean expected=true;
+				if(list==expected)
+				{
+				System.out.println("Test case 26 Pass- List dropdown close successfully");
+				}
+				else
+				{
+					System.out.println("Test case 26 Fail- Dropdown still display");
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 26 Fail-Dropdown still display ");	
+			}	
+	}
+	private static void Station_dewas() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			driver.findElement(By.xpath("//android.widget.CheckedTextView[@text='Dewas - DWX']")).click();
+			Thread.sleep(3000);
+			System.out.println("Test case 25 Pass- User successfully click on dewas station");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 25 Fail- Dewas station not found");	
+		}
+	}
+	private static void Station_list() {
+		// TODO Auto-generated method stub
+		 try {
+				Thread.sleep(3000);
+				String station=driver.findElement(By.id("cris.icms.ntes:id/alertTitle")).getText();
+				String expected="Journey Station";
+				if(station.equals(expected))
+				{
+				System.out.println("Test case 24 Pass- After click on station dropdown , Station name list successfully display");
+				}
+				else
+				{
+					System.out.println("Test case 24 Fail-Station name not found");
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 24 Fail-Station name not found");	
+			}
+	}
+	private static void Station_dropdown() {
+		// TODO Auto-generated method stub
+		 try {
+				Thread.sleep(3000);
+				driver.findElement(By.className("android.widget.ImageView")).click();
+				System.out.println("Test case 23 Pass- User successfully click on dropdown option");
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 23 Fail-Dropdown not found ");	
+			}
+	}
+	private static void Date_current() {
+		// TODO Auto-generated method stub
+		 try {
+				Thread.sleep(3000);
+				String date=driver.findElement(By.xpath("//android.widget.TextView[@text='10-Jan']")).getText();
+				String expected="10-Jan";
+				if(date.equals(expected))
+				{
+				System.out.println("Test case 22 Pass- Date display as current date");
+				}
+				else
+				{
+					System.out.println("Test case 22 Fail-Incorrect date display  ");
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 22 Fail-Incorrect date display ");	
+			}
+	}
+	private static void Train_name() {
+		// TODO Auto-generated method stub
+		 try {
+				Thread.sleep(3000);
+				String name=driver.findElement(By.id("cris.icms.ntes:id/tName")).getText();
+				String expected="JBP- IND EXP";
+				if(name.equals(expected))
+				{
+				System.out.println("Test case 21 Pass- Correct name display on screen");
+				}
+				else
+				{
+					System.out.println("Test case 21 Fail-Incorrect name display  ");
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 21 Fail-Incorrect name display ");	
+			}
+	}
+	private static void train_auto_search() {
+		// TODO Auto-generated method stub
+		 try {
+				Thread.sleep(3000);
+				String name=driver.findElement(By.id("cris.icms.ntes:id/tName")).getText();
+				String expected="JBP- IND EXP";
+				if(name.equals(expected))
+				{
+				System.out.println("Test case 20 Pass- Train search successfully display ");
+				}
+				else
+				{
+					System.out.println("Test case 20 Fail-Auto serach is not working ");
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 20 Fail-Auto serach is not working");	
+			}
+	}
+	private static void input_train_num() {
+		// TODO Auto-generated method stub
+		 try {
+				Thread.sleep(3000);
+				driver.findElement(By.id("cris.icms.ntes:id/train1")).sendKeys("22192");
+				System.out.println("Test case 19 Pass- User successfully enter Train number");
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 19 Fail-Train number not entered");	
+			}
+	}
+	private static void Train_Instances_select() {
+		// TODO Auto-generated method stub
+		 try {
+				Thread.sleep(3000);
+				driver.findElement(By.id("cris.icms.ntes:id/opt2")).click();
+				System.out.println("Test case 17 Pass- User successfully select Train Instances");
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 17 Fail- Train Instances not selected");	
+			}	
+	}
+	private static void Journey_Station_Basis_select() {
+		// TODO Auto-generated method stub
+		try {
+			Thread.sleep(3000);
+			driver.findElement(By.id("cris.icms.ntes:id/opt1")).click();
+			System.out.println("Test case 18 Pass- User successfully select Journey Station Basis");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 18 Fail- Journey Station Basis not selected");	
+		}
+	}
+	private static void spot_your_train_click_navigation() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+				boolean title=driver.findElement(By.id("cris.icms.ntes:id/action_bar")).isDisplayed();
+				boolean expected=true;
+				if(title==expected)
+				{
+					System.out.println("Test case 16 Pass- User successfully navigates to next screen after click on Spot you train");
+			}
+				else
+				{
+					 System.out.println("Test case 16 Fail- User still on Home page");	
+				}
+			}
+		 
+			 catch(Exception e)
+			 {
+				 System.out.println("Test case 16 Fail- User still on Home page"); 
+			 }	
+	}
+	private static void spot_your_train_click() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+				driver.findElement(By.id("cris.icms.ntes:id/spot")).click();
+					System.out.println("Test case 15 Pass- User successfully click on Spot you train");
+			}
+			 catch(Exception e)
+			 {
+				 System.out.println("Test case 15 Fail- Spot your train not found"); 
+			 }	
+	}
+	private static void spot_your_train_clickable() {
+		// TODO Auto-generated method stub
+	try
+	{
+		Thread.sleep(3000);
+		boolean btn=driver.findElement(By.id("cris.icms.ntes:id/spot")).isEnabled();
+		boolean expected=true;
+		if(btn==expected)
+		{
+			System.out.println("Test case 14 Pass- Spot your Train button is clickable");
+		}
+		else
+		{
+			System.out.println("Test case 14 Fail- Spot your train is not clickable");
+	}
+	}
+	 catch(Exception e)
+	 {
+		 System.out.println("Test case 14 Fail- Spot your train is not clickable"); 
+	 }
+}
+
+	private static void spot_your_train() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+				boolean module_title=driver.findElement(By.id("cris.icms.ntes:id/spot")).isDisplayed();
+				boolean expected=true;
+				if(module_title==expected)
+				{
+					System.out.println("Test Case 13 Pass- Spot Your train successfully display on Home screen");
+				}
+				else
+				{
+					System.out.println("Test Case 13 Fail- Spot your train is not display on screen");
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test Case 13 Fail-  Spot your train is not display on screen");
+			}
+	}
+	private static void notification_back_navigation() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+			boolean screen_title=driver.findElement(By.id("cris.icms.ntes:id/action_bar")).isDisplayed();
+			boolean expected=true;
+			if(screen_title==expected)
+			{
+				System.out.println("Test Case 12 Pass- After click on Back button , user navigates to Home page");
+			}
+			else
+			{
+				System.out.println("Test Case 12 Fail- User still on Notification screen");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test Case 12 Fail- User still on Notification screen");
+		}
+	}
+	private static void notification_back_click() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+			   driver.findElement(By.className("android.widget.ImageButton")).click();
+			    System.out.println("Test case 11 Pass- User successfully click on back button ");
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 11 Fail- Back button not found ");
+			}
+	}
+	private static void notification_backbtn() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+			    boolean back_btn=driver.findElement(By.className("android.widget.ImageButton")).isEnabled();
+			    boolean expected=true;
+			    if(back_btn==expected)
+			    {
+			    System.out.println("Test case 10 Pass- Back button on notification screen is clickable ");
+			    }
+			    else
+			    {
+			    	 System.out.println("Test case 10 Fail- Back button on notification screen is not clickable ");	
+			    }
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 10 Fail- Back button on notification screen is not clickable ");
+			}
+	}
+	private static void NOTIFICATION_OFF() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+			    driver.findElement(By.id("cris.icms.ntes:id/switchId")).click();
+			    	System.out.println("Test case 9 Pass- User successfully Turn OFF notification icon");
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 9 Fail- Notification still Turn ON ");
+			}
+	}
+	private static void notification_on() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+		    driver.findElement(By.id("cris.icms.ntes:id/switchId")).click();
+		    	System.out.println("Test case 8 Pass- User successfully Turn ON notification icon");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 8 Fail- Notification still Turn Off ");
+		}
+	}
+	private static void notification_on_off() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+			    boolean switch_btn=driver.findElement(By.id("cris.icms.ntes:id/switchId")).isEnabled();
+			    boolean expected=true;
+			    if(switch_btn==expected)
+			    {
+			    	System.out.println("Test case 7 Pass- User can successfully  switch notification");
+			    }
+			    else
+			    {
+			    	System.out.println("Test case 7 Fail- Toggle button is not working ");			 
+			    	}
+			    
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 7 Fail- Toggle button is not working ");	
+			}	
+	}
+	private static void notification_switch() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+		    boolean switch_btn=driver.findElement(By.id("cris.icms.ntes:id/switchId")).isDisplayed();
+		    boolean expected=true;
+		    if(switch_btn==expected)
+		    {
+		    	System.out.println("Test case 6 Pass- Notification toggle button is present ");
+		    }
+		    else
+		    {
+		    	System.out.println("Test case 6 Fail- Swtich option is not present ");			 
+		    	}
+		    
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 6 Fail- Swtich option is not present ");	
+		}
+	}
+	private static void notification_navigation() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+			    boolean title_name=driver.findElement(By.id("cris.icms.ntes:id/header")).isDisplayed();
+			    boolean expected=true;
+			    if(title_name==expected)
+			    {
+			    	System.out.println("Test case 5 Pass- User successfully click on notification icon");
+			    }
+			    else
+			    {
+			    	System.out.println("Test case 5 Fail- User not navigates to next screen ");			 
+			    	}
+			    
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 5 Fail- User not navigates to next screen ");
+			}
+	}
+	private static void notification_userclick() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+			    driver.findElement(By.id("cris.icms.ntes:id/action_notice")).click();
+			    System.out.println("Test case 4 Pass- User successfully click on notification icon");
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 4 Fail- Icon not found ");
+			}
+	}
+	private static void notification_click() {
+		// TODO Auto-generated method stub
+		 try
+			{
+				Thread.sleep(3000);
+			    boolean notification=driver.findElement(By.id("cris.icms.ntes:id/action_notice")).isEnabled();
+			    boolean expected=true;
+			    if(notification==expected)
+			    {
+			    	System.out.println("Test case 3 Pass- Notification icon is clickable");
+			    }
+			    else
+			    {
+			    	System.out.println("Test case 3 Fail- Notification icon is not clickable ");
+			    }
+			}
+			catch(Exception e)
+			{
+				System.out.println("Test case 3 Fail- Notification icon is not clickable ");
+			}
+	}
+	private static void notification_icon() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(3000);
+		    boolean notification=driver.findElement(By.id("cris.icms.ntes:id/action_notice")).isDisplayed();
+		    boolean expected=true;
+		    if(notification==expected)
+		    {
+		    	System.out.println("Test case 2 Pass- Notification icon present on 1st screen");
+		    }
+		    else
+		    {
+		    	System.out.println("Test case 2 Fail- Notification icon is not present ");
+		    }
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test case 2 Fail- Notification icon is not present ");
+		}
+	}
+	//Test case 1-Verify NTES app should successfully launch
+	private static void ntes_launch() {
+		// TODO Auto-generated method stub
+		try
+		{
+			Thread.sleep(6000);
+			String title=driver.findElement(By.id("cris.icms.ntes:id/action_bar")).getText();
+			System.out.println("Test Case 1 Pass- User navigates to NTES App");
+		}
+		catch(Exception e)
+		{
+			System.out.println("Test Case 1 Fail- App not launch");
+		}
+	}
+}
